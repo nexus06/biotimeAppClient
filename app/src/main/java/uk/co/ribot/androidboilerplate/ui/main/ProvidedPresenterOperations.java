@@ -18,8 +18,6 @@ public class ProvidedPresenterOperations{
 
     public interface LoginMvpView extends MvpView {
 
-        void login(String name, String password);
-
         void showLoginResult();
 
         void showError();

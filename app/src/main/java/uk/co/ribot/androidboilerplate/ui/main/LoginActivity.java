@@ -147,9 +147,7 @@ public class LoginActivity extends BaseActivity implements ProvidedPresenterOper
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+
 
         // Reset errors.
         mEmailView.setError(null);
@@ -188,8 +186,8 @@ public class LoginActivity extends BaseActivity implements ProvidedPresenterOper
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mLoginPresenter.login(mEmailView.getText().toString(),mPasswordView.getText().toString());
+
         }
     }
 
@@ -242,11 +240,6 @@ public class LoginActivity extends BaseActivity implements ProvidedPresenterOper
         ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
-    }
-
-    @Override
-    public void login(String name, String password) {
-
     }
 
     @Override

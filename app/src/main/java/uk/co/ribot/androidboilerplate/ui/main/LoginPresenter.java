@@ -7,6 +7,8 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.UserLoggedInfo;
+import uk.co.ribot.androidboilerplate.data.remote.RemoteData;
 import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
@@ -17,12 +19,12 @@ import java.util.List;
 @ConfigPersistent
 public class LoginPresenter extends BasePresenter<ProvidedPresenterOperations.LoginMvpView> {
 
-    private final DataManager mDataManager;
     private Subscription mSubscription;
+    private RemoteData remoteData;
 
     @Inject
-    public LoginPresenter(DataManager dataManager) {
-        mDataManager = dataManager;
+    public LoginPresenter(RemoteData dataManager) {
+        remoteData = dataManager;
     }
 
     @Override
@@ -36,13 +38,14 @@ public class LoginPresenter extends BasePresenter<ProvidedPresenterOperations.Lo
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadRibots() {
+    public void login(String user, String pass) {
         checkViewAttached();
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRibots()
+
+        mSubscription = remoteData.login("username=111111111&password=21232f297a57a5a743894a0e4a801fc3")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Ribot>>() {
+                .subscribe(new Subscriber<UserLoggedInfo>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -54,12 +57,12 @@ public class LoginPresenter extends BasePresenter<ProvidedPresenterOperations.Lo
                     }
 
                     @Override
-                    public void onNext(List<Ribot> ribots) {
-                        if (ribots.isEmpty()) {
+                    public void onNext(UserLoggedInfo ribots) {
+                        /*if (ribots.isEmpty()) {
                             getMvpView().showError();
                         } else {
                             getMvpView().showLoginResult();
-                        }
+                        }*/
                     }
                 });
     }
