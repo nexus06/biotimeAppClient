@@ -1,8 +1,13 @@
+
+
 apply plugin: 'com.android.application'
 apply from: '../config/quality/quality.gradle'
 apply plugin: 'com.github.triplet.play'
 //TODO uncomment line below after adding fabric api secret and key to fabric.properties
 //apply plugin: 'io.fabric'
+repositories {
+    mavenCentral()
+}
 
 android {
     compileSdkVersion 24
@@ -157,6 +162,12 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile 'com.android.support:design:24.2.1'
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile 'org.apache.commons:commons-lang3:3.6'
+
+
+
+
 }
 
 // Log out test results to console

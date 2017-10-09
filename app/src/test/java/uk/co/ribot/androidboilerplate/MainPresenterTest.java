@@ -14,10 +14,10 @@ import java.util.List;
 
 import rx.Observable;
 import uk.co.ribot.androidboilerplate.data.DataManager;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Profiles;
 import uk.co.ribot.androidboilerplate.test.common.TestDataFactory;
-import uk.co.ribot.androidboilerplate.ui.main.MainMvpView;
 import uk.co.ribot.androidboilerplate.ui.main.MainPresenter;
+import uk.co.ribot.androidboilerplate.ui.main.ProvidedPresenterOperations;
 import uk.co.ribot.androidboilerplate.util.RxSchedulersOverrideRule;
 
 import static org.mockito.Mockito.never;
@@ -27,7 +27,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTest {
 
-    @Mock MainMvpView mMockMainMvpView;
+    @Mock
+    ProvidedPresenterOperations.MainMvpView mMockMainMvpView;
     @Mock DataManager mMockDataManager;
     private MainPresenter mMainPresenter;
 
@@ -46,37 +47,37 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void loadRibotsReturnsRibots() {
-        List<Ribot> ribots = TestDataFactory.makeListRibots(10);
-        when(mMockDataManager.getRibots())
-                .thenReturn(Observable.just(ribots));
+    public void loadSuperHerossReturnsSuperHeros() {
+        List<Profiles> superhero_avs = TestDataFactory.makeListSuperHero(10);
+        when(mMockDataManager.getSuperHeros())
+                .thenReturn(Observable.just(superhero_avs));
 
-        mMainPresenter.loadRibots();
-        verify(mMockMainMvpView).showRibots(ribots);
-        verify(mMockMainMvpView, never()).showRibotsEmpty();
+        mMainPresenter.loadSuperHeros();
+        verify(mMockMainMvpView).showSuperHeros(superhero_avs);
+        verify(mMockMainMvpView, never()).showSuperHeroEmpty();
         verify(mMockMainMvpView, never()).showError();
     }
 
     @Test
-    public void loadRibotsReturnsEmptyList() {
-        when(mMockDataManager.getRibots())
-                .thenReturn(Observable.just(Collections.<Ribot>emptyList()));
+    public void loadSuperHerosReturnsEmptyList() {
+        when(mMockDataManager.getSuperHeros())
+                .thenReturn(Observable.just(Collections.<Profiles>emptyList()));
 
-        mMainPresenter.loadRibots();
-        verify(mMockMainMvpView).showRibotsEmpty();
-        verify(mMockMainMvpView, never()).showRibots(ArgumentMatchers.<Ribot>anyList());
+        mMainPresenter.loadSuperHeros();
+        verify(mMockMainMvpView).showSuperHeroEmpty();
+        verify(mMockMainMvpView, never()).showSuperHeros(ArgumentMatchers.<Profiles>anyList());
         verify(mMockMainMvpView, never()).showError();
     }
 
     @Test
-    public void loadRibotsFails() {
-        when(mMockDataManager.getRibots())
-                .thenReturn(Observable.<List<Ribot>>error(new RuntimeException()));
+    public void loadSuperHeroFails() {
+        when(mMockDataManager.getSuperHeros())
+                .thenReturn(Observable.<List<Profiles>>error(new RuntimeException()));
 
-        mMainPresenter.loadRibots();
+        mMainPresenter.loadSuperHeros();
         verify(mMockMainMvpView).showError();
-        verify(mMockMainMvpView, never()).showRibotsEmpty();
-        verify(mMockMainMvpView, never()).showRibots(ArgumentMatchers.<Ribot>anyList());
+        verify(mMockMainMvpView, never()).showSuperHeroEmpty();
+        verify(mMockMainMvpView, never()).showSuperHeros(ArgumentMatchers.<Profiles>anyList());
     }
 
 }

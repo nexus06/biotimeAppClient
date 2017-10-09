@@ -19,7 +19,7 @@ public class UserLoggedInfo implements Parcelable
     @SerializedName("success")
     @Expose
     private Boolean success;
-    public final static Creator<UserLoggedInfo> CREATOR = new Creator<UserLoggedInfo>() {
+    public final static Parcelable.Creator<UserLoggedInfo> CREATOR = new Creator<UserLoggedInfo>() {
 
 
         @SuppressWarnings({

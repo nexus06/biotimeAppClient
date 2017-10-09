@@ -22,7 +22,8 @@ public abstract class Ribot implements Comparable<Ribot>, Parcelable {
 
     @Override
     public int compareTo(@NonNull Ribot another) {
-        return profile().name().first().compareToIgnoreCase(another.profile().name().first());
+        return profile().name()
+                .compareToIgnoreCase(another.profile().name());
     }
 }
 

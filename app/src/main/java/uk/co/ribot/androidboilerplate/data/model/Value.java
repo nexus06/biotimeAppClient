@@ -22,7 +22,7 @@ public class Value implements Parcelable
     @SerializedName("isAdmin")
     @Expose
     private Integer isAdmin;
-    public final static Creator<Value> CREATOR = new Creator<Value>() {
+    public final static Parcelable.Creator<Value> CREATOR = new Creator<Value>() {
 
 
         @SuppressWarnings({

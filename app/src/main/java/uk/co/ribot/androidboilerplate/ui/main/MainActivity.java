@@ -15,8 +15,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.ribot.androidboilerplate.R;
-import uk.co.ribot.androidboilerplate.data.SyncService;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Profile;
+import uk.co.ribot.androidboilerplate.data.model.Profiles;
 import uk.co.ribot.androidboilerplate.ui.base.BaseActivity;
 import uk.co.ribot.androidboilerplate.util.DialogFactory;
 
@@ -26,7 +26,8 @@ public class MainActivity extends BaseActivity implements ProvidedPresenterOpera
             "uk.co.ribot.androidboilerplate.ui.main.MainActivity.EXTRA_TRIGGER_SYNC_FLAG";
 
     @Inject MainPresenter mMainPresenter;
-    @Inject RibotsAdapter mRibotsAdapter;
+    @Inject
+    SuperHerosAdapter mRibotsAdapter;
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
@@ -51,11 +52,8 @@ public class MainActivity extends BaseActivity implements ProvidedPresenterOpera
         mRecyclerView.setAdapter(mRibotsAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mMainPresenter.attachView(this);
-        mMainPresenter.loadRibots();
+        mMainPresenter.loadSuperHeros();
 
-        if (getIntent().getBooleanExtra(EXTRA_TRIGGER_SYNC_FLAG, true)) {
-            startService(SyncService.getStartIntent(this));
-        }
     }
 
     @Override
@@ -65,11 +63,12 @@ public class MainActivity extends BaseActivity implements ProvidedPresenterOpera
         mMainPresenter.detachView();
     }
 
-    /***** MVP View methods implementation *****/
+    /***** MVP View methods implementation
+     * @param superhero_avs*****/
 
     @Override
-    public void showRibots(List<Ribot> ribots) {
-        mRibotsAdapter.setRibots(ribots);
+    public void showSuperHeros(List<Profile> superhero_avs) {
+        mRibotsAdapter.setRibots(superhero_avs);
         mRibotsAdapter.notifyDataSetChanged();
     }
 
@@ -80,8 +79,8 @@ public class MainActivity extends BaseActivity implements ProvidedPresenterOpera
     }
 
     @Override
-    public void showRibotsEmpty() {
-        mRibotsAdapter.setRibots(Collections.<Ribot>emptyList());
+    public void showSuperHeroEmpty() {
+        mRibotsAdapter.setRibots(Collections.<Profile>emptyList());
         mRibotsAdapter.notifyDataSetChanged();
         Toast.makeText(this, R.string.empty_ribots, Toast.LENGTH_LONG).show();
     }

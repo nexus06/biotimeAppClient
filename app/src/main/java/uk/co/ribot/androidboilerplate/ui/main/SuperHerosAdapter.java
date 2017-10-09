@@ -1,6 +1,5 @@
 package uk.co.ribot.androidboilerplate.ui.main;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,49 +14,49 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.ribot.androidboilerplate.R;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Profile;
+import uk.co.ribot.androidboilerplate.data.model.Profiles;
 
-public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewHolder> {
+public class SuperHerosAdapter extends RecyclerView.Adapter<SuperHerosAdapter.SuperHeroViewHolder> {
 
-    private List<Ribot> mRibots;
+    private List<Profile> msuperhero_avs;
 
     @Inject
-    public RibotsAdapter() {
-        mRibots = new ArrayList<>();
+    public SuperHerosAdapter() {
+        msuperhero_avs = new ArrayList<>();
     }
 
-    public void setRibots(List<Ribot> ribots) {
-        mRibots = ribots;
+    public void setRibots(List<Profile> superhero_avs) {
+        msuperhero_avs = superhero_avs;
     }
 
     @Override
-    public RibotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SuperHeroViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_ribot, parent, false);
-        return new RibotViewHolder(itemView);
+        return new SuperHeroViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final RibotViewHolder holder, int position) {
-        Ribot ribot = mRibots.get(position);
-        holder.hexColorView.setBackgroundColor(Color.parseColor(ribot.profile().hexColor()));
+    public void onBindViewHolder(final SuperHeroViewHolder holder, int position) {
+        Profile ribot = msuperhero_avs.get(position);
         holder.nameTextView.setText(String.format("%s %s",
-                ribot.profile().name().first(), ribot.profile().name().last()));
-        holder.emailTextView.setText(ribot.profile().email());
+                ribot.name(), " "+ribot.realName()));
+        holder.emailTextView.setText(ribot.realName());
     }
 
     @Override
     public int getItemCount() {
-        return mRibots.size();
+        return msuperhero_avs.size();
     }
 
-    class RibotViewHolder extends RecyclerView.ViewHolder {
+    class SuperHeroViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.view_hex_color) View hexColorView;
         @BindView(R.id.text_name) TextView nameTextView;
         @BindView(R.id.text_email) TextView emailTextView;
 
-        public RibotViewHolder(View itemView) {
+        public SuperHeroViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

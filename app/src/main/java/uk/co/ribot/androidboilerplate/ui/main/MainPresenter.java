@@ -1,7 +1,5 @@
 package uk.co.ribot.androidboilerplate.ui.main;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import rx.Subscriber;
@@ -10,7 +8,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Superheros;
 import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
@@ -37,13 +35,13 @@ public class MainPresenter extends BasePresenter<ProvidedPresenterOperations.Mai
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadRibots() {
+    public void loadSuperHeros() {
         checkViewAttached();
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRibots()
+        mSubscription = mDataManager.getSuperHeros()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Ribot>>() {
+                .subscribe(new Subscriber<Superheros>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -55,11 +53,11 @@ public class MainPresenter extends BasePresenter<ProvidedPresenterOperations.Mai
                     }
 
                     @Override
-                    public void onNext(List<Ribot> ribots) {
-                        if (ribots.isEmpty()) {
-                            getMvpView().showRibotsEmpty();
+                    public void onNext(Superheros superheros) {
+                        if (superheros.superheroes().isEmpty()) {
+                            getMvpView().showSuperHeroEmpty();
                         } else {
-                            getMvpView().showRibots(ribots);
+                            getMvpView().showSuperHeros(superheros.superheroes());
                         }
                     }
                 });
